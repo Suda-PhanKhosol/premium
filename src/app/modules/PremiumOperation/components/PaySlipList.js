@@ -7,8 +7,8 @@ import { useSelector } from 'react-redux';
 const useStyle = makeStyles((theme) =>({
     headerImg:{
         margin: "auto",
-        width: 69,
-        height: 56,
+        width: 59,
+        height: 46,
     },
     headerLayout:{
 
@@ -16,7 +16,7 @@ const useStyle = makeStyles((theme) =>({
     titleText:{
         color:'white',
         fontFamily:'prompt',
-        fontSize:15
+        fontSize:11
     },
     paperLayout :{
         marginLeft:10,
@@ -35,19 +35,19 @@ export default function PaySlipList() {
             <br/>
             <Paper elevation={2}  >
                 <Grid container className={classes.paperLayout}>
-                      <Grid item xs={2} sm={2} md={2} lg={2} style={{marginTop:10}}>
+                      <Grid item xs={3} sm={2} md={2} lg={2} style={{marginTop:10}}>
                           <img className={classes.headerImg} alt="complex" src={process.env.PUBLIC_URL + "/logo192.png"}></img>
                       </Grid>
-                      <Grid item xs={8} sm={8} md={8} lg={8}  >
+                      <Grid item xs={9} sm={9} md={9} lg={9}  >
                            <Grid container  style={{marginTop:10}}>
-                               <Grid item xs={12} sm={12} md={12} lg={12}>
-                                   <Typography style={{fontWeight:'bold' ,fontSize:16 ,color:'#828282' ,fontFamily:'prompt'}}>ใบรับฝากเงิน (Pay Slip)</Typography>
+                               <Grid item xs={11} sm={12} md={12} lg={12}>
+                                   <Typography style={{fontWeight:'bold' ,fontSize:14 ,color:'#828282' ,fontFamily:'prompt'}}>ใบรับฝากเงิน (Pay Slip)</Typography>
                                </Grid>
-                               <Grid item xs={12} sm={12} md={12} lg={12}>
-                                   <Typography style={{fontWeight:'bold' ,fontSize:16 ,color:'#00AEEF' ,fontFamily:'prompt'}}>บริษัท สยามสไมล์ โบรกเกอร์ (ประเทศไทย) จำกัด</Typography>
+                               <Grid item xs={11} sm={12} md={12} lg={12}>
+                                   <Typography style={{fontWeight:'bold' ,fontSize:14 ,color:'#00AEEF' ,fontFamily:'prompt'}}>บริษัท สยามสไมล์ โบรกเกอร์ (ประเทศไทย) จำกัด</Typography>
                                </Grid>
-                               <Grid item xs={12} sm={12} md={12} lg={12}>
-                                   <Typography style={{fontSize:10 ,color:'#828282' ,fontFamily:'prompt'}}>เลขที่ 69/6-10 ถนนเฉลิมพงษ์ แขวงสายไหม เขตสายไหม กรุงเทพฯ 10220</Typography>
+                               <Grid item xs={11} sm={12} md={12} lg={12}>
+                                   <Typography style={{fontSize:6 ,color:'#828282' ,fontFamily:'prompt'}}>เลขที่ 69/6-10 ถนนเฉลิมพงษ์ แขวงสายไหม เขตสายไหม กรุงเทพฯ 10220</Typography>
                                </Grid>
                            </Grid>
                       </Grid>
@@ -68,7 +68,8 @@ export default function PaySlipList() {
                     spacing={3}
                 >
                         <Grid item xs={12} sm={12} md={12} lg={12} >
-                              <Paper variant="outlined" style={{backgroundColor:'#00AEEF' ,maxWidth:'100%' , height:50}} square  >
+                              <Paper variant="outlined" style={{backgroundColor:'#00AEEF' ,maxWidth:'100%' , height:70}} square  >
+                                  <br/>
                                   <Grid container  className={classes.paperLayout}>
                                         <Grid item xs={6} sm={6} md={6} lg={6}>
                                              <Typography className={classes.titleText}>วันที่รับชำระ : {customerPaymentReducer.paySlip.xxx_paidDate}</Typography>

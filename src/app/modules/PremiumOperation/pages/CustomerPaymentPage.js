@@ -5,6 +5,7 @@ import { makeStyles   } from "@material-ui/core/styles";
 import Footer from '../components/Footer';
 import CustomerPaymentList from '../components/CustomerPaymentList';
 import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 
 const useStyle = makeStyles((theme) => ({
     TextStyle : {
@@ -28,6 +29,8 @@ export default function CustomerPaymentPage() {
     
     const classes = useStyle();
     const history = useHistory();
+    const customerPaymentReducer = useSelector(({customerPayment}) => customerPayment)
+
     const [windowDimensions, setWindowDimensions] = React.useState(
 		getWindowDimensions()
 	);
@@ -86,14 +89,17 @@ export default function CustomerPaymentPage() {
                             >
                                 <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
                                 <Grid item xs={5} sm={5} md={3} lg={2}>
-                                    <Typography >ยอดชำระเงิน  1040 บาท</Typography>
+                                    <Typography style={{}}>ยอดชำระเงิน  </Typography>
+                                    <Typography style={{fontWeight:'bold'}}>  {customerPaymentReducer.productListPayment.xxx_paymentTotal} บาท</Typography>
                                 </Grid>
                                 <Grid container item xs={5} sm={5} md={3} lg={2}  justifyContent="flex-end">
-                                <Button 
-                                variant="contained" 
-                                style={{backgroundColor:'#419BF6' , color:'white'}}
-                                onClick={() =>{ history.push("/PaymentMethods") }}
-                                >ช่องทางการชำระ</Button> 
+                                    <Button 
+                                    variant="contained" 
+                                    style={{backgroundColor:'#419BF6' , color:'white' ,fontSize:13}}
+                                    onClick={() =>{ history.push("/PaymentMethods") }}
+                                    >
+                                        ช่องทางการชำระ
+                                    </Button> 
                                 </Grid>
                                 <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
                             

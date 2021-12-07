@@ -68,12 +68,13 @@ export default function PaySlipPage() {
                                     direction="row"
                                     justifyContent="center"
                                     alignItems="center"
+                                    style={{marginLeft:0}}
                                 >
-                                    <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
-                                    <Grid item xs={10} sm={10} md={6} lg={4}>
+                                    {/* <Grid item xs={1} sm={1} md={1} lg={1}></Grid> */}
+                                    <Grid item xs={11} sm={10} md={6} lg={4}>
                                         <PaySlipList></PaySlipList>
                                     </Grid>
-                                    <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
+                                    {/* <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid> */}
                                 
                                 </Grid>
 
@@ -81,6 +82,7 @@ export default function PaySlipPage() {
                 
         </Grid>
 
+            <br/>
             <Footer></Footer>     
         </div>
     )

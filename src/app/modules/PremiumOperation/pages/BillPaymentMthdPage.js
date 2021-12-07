@@ -1,42 +1,22 @@
-import React from 'react'
+import React, { useRef } from 'react';
 import {  Grid, Typography  ,Button, Paper} from '@material-ui/core'
 import SiamSmileHeader from '../components/SiamSmileHeader';
 import { makeStyles   } from "@material-ui/core/styles";
 import Footer from '../components/Footer';
 import { useHistory } from 'react-router';
  import { useSelector } from 'react-redux';
- import { BillPaymentPDF } from '../components/BillPaymentPDF';
-//  import BackIcon from '@material-ui/icons/KeyboardBackspace'
+ import { BillPaymentPDF } from '../components/BillPaymentPDF'; 
+ import imageToBase64 from 'image-to-base64/browser';
+ import ReactToPrint from 'react-to-print';
+ import BillPayment from '../components/BillPayment'; //แม่สามารถดึงของในลูกมาใช้ได้ทุกอย่าง ?
+ import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
 
 const useStyle = makeStyles((theme) => ({
     TextTitleStyle : {
         fontFamily:'sarabun',
-        fontSize:22,
+        fontSize:19,
         fontWeight:'bold'
-    },
-    TextStyle : {
-        fontFamily:'sarabun',
-        fontSize:11,
-        color:'#219EE2'
-    },
-    TextDetailStyle : {
-        fontFamily:'sarabun',
-        fontSize:11,
-    },
-    TextRemarkStyle : {
-        fontWeight:'bold',
-        fontFamily:'sarabun',
-        fontSize:11,
-    },
-    headerImg:{
-        margin: "auto",
-        display: 'block',
-        width: 30,
-        height: 35,
-        maxWidth: '80%',
-        maxHeight: '80%',
-        
-    },
+    }
 }));
 
 function getWindowDimensions() {
@@ -49,6 +29,7 @@ function getWindowDimensions() {
 
 export default function BillPaymentMthdPage() {
     
+    const componentRef = useRef();
     const classes = useStyle();
     const history = useHistory();
     const customerPaymentReducer = useSelector(({customerPayment}) => (customerPayment));
@@ -60,63 +41,91 @@ export default function BillPaymentMthdPage() {
          +  customerPaymentReducer.qrCodeBillGenFormat.xxx_ref2  +  "\n" 
          +  customerPaymentReducer.qrCodeBillGenFormat.xxx_totalAmount 
     );
-    const [encodeImg, setEncodeImg] = React.useState( "sdf" )
 
-    var QRCode = require("qrcode.react");
-	var Barcode = require('react-barcode');
 
-    const onImageCownload = () => {
-        for(var i = 0 ; i < 2 ; i++){
-            var svg ;
-            if(i===0){
-              svg = document.getElementById("QRCode");
-            }
-            // if(i===1){
-            //      svg = document.getElementById("div-svg");
-            //     //  svg = document.getElementById("barcode-canvas");
-            // }
+    const [encodeAllImg, setEncodeAllImg] = React.useState([]);
+    const [encodeQRCode, setEncodeQRCode] = React.useState("")
+
+
+    const onImageCownload = (checkEventDownload) => {
+
+            var svg  = document.getElementById("QRCode");
+           
             const svgData = new XMLSerializer().serializeToString(svg);
             const canvas = document.createElement("canvas");
+            var pngFile ;
+            var enCodeQRCode ; //Reuse in PDF
             const ctx = canvas.getContext("2d");
             const img = new Image();
             img.onload = () => {
               canvas.width = img.width;
               canvas.height = img.height;
               ctx.drawImage(img, 0, 0);
-              const pngFile = canvas.toDataURL("image/png");
-              const downloadLink = document.createElement("a");
-              downloadLink.download = "Siamsmile QR-Code Payment";
-              downloadLink.href = `${pngFile}`;
-              downloadLink.click();
+              pngFile = canvas.toDataURL("image/png");
+
+              if(checkEventDownload){
+                const downloadLink = document.createElement("a");
+                downloadLink.download = "Siamsmile QR-Code Payment";
+                downloadLink.href = `${pngFile}`;
+                downloadLink.click();
+              }
+              
+              enCodeQRCode  = `data:image/png;base64,${btoa(svgData)}`;
+              console.log(pngFile);
+              setEncodeQRCode(pngFile);
             };
             img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
 
-        }
        
       };
-      
+   
       const handleOpenPDF = () => {
-		BillPaymentPDF( customerPaymentReducer.productListPayment ,customerPaymentReducer.billPaymentDetail);
+        console.log(encodeAllImg);
+        console.log(encodeQRCode);
+        BillPaymentPDF( customerPaymentReducer.productListPayment ,customerPaymentReducer.billPaymentDetail ,encodeAllImg ,encodeQRCode);
+
 	 }
 
-     const handleEncode = () => {
-        const imageToBase64 = require('image-to-base64');
-        const pt = require("path");
-        var path = `${process.env.PUBLIC_URL + "/visa-master.png"}`
-		var imgBase64 =  imageToBase64(path) // Image URL
-            .then(
-                (response) => {
-                    console.log('success',response); // "iVBORw0KGgoAAAANSwCAIA..."
-                    imgBase64 = response ;
-                }
-            )
-            .catch(
-                (error) => {
-                    console.log('error!!',error); // Logs an error if there was one
-                }
-            )
-        setEncodeImg(`data:image/svg+xml;base64,`);
-	 }
+
+     const EnCodeAllImg = () =>   
+        new Promise((resolve) => {
+            console.log('start encode');
+
+         let enCodeAllImgArray = [];
+         let nameOfAllImg = [
+             `${process.env.PUBLIC_URL + "/KTNK.png"}` ,
+             `${process.env.PUBLIC_URL + "/512x512bb.jpg"}` ,
+             `${process.env.PUBLIC_URL + "/kbank.jpg"}` ,
+             `${process.env.PUBLIC_URL + "/KTB.jpg"}` ,
+             `${process.env.PUBLIC_URL + "/scb.jpg"}` ,
+             `${process.env.PUBLIC_URL + "/Oamsin.jpg"}` ,
+             `${process.env.PUBLIC_URL + "/TMB.png"}` ,
+             `${process.env.PUBLIC_URL + "/bualuang.png"}` ,
+             `${process.env.PUBLIC_URL + "/BPbackground.jpeg"}` ,
+             `${process.env.PUBLIC_URL + "/logo192.png"}` ,
+
+        ];
+         for(var index in nameOfAllImg){
+            
+            imageToBase64(nameOfAllImg[index]) // Image URL
+                .then(
+                    (response) => {
+                        let encodeString = 'data:image/svg+xml;base64,' +response ;
+                        enCodeAllImgArray.push(encodeString);
+                    }
+                )
+                .catch(
+                    (error) => {
+                        console.log('error!!',error); // Logs an error if there was one
+                    }
+                )
+         }
+
+         setEncodeAllImg(enCodeAllImgArray);
+
+        resolve();
+     })
+
 
     const [windowDimensions, setWindowDimensions] = React.useState(
 		getWindowDimensions()
@@ -129,13 +138,22 @@ export default function BillPaymentMthdPage() {
 
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
-
-        
 	}, []);
+
+
+    React.useEffect(() => {
+
+        //เรียกใช้ฟังก์ชันเพื่อ encode QR-Code ที่ต้องใช้ใน PDF เก็บไว้ก่อน
+        onImageCownload(false);
+
+        //เรียกใช้ฟังก์ชันเพื่อ encode รูปทั้งหมดที่ต้องใช้ใน PDF เก็บไว้ก่อน
+        EnCodeAllImg();
+        
+    }, [qeCodeValue]);
+
     return (
         <div>
             <SiamSmileHeader></SiamSmileHeader>
-         
                
          <Grid 
              style={{
@@ -159,16 +177,15 @@ export default function BillPaymentMthdPage() {
                     >
                                 <Grid
                                     container
-                                    direction="column"
+                                    direction="row"
                                     justifyContent="center"
                                     alignItems="center"
                                 >
-                                    <Grid item xs={1} sm={1} md={1} ></Grid>
-                                    <Grid item xs={10} sm={10} md={10}> 
-                                        {/* <BackIcon></BackIcon> */}
+                                    <Grid item xs={1} sm={1} md={1} lg={1} ></Grid>
+                                    <Grid item xs={10} sm={8} md={4} lg={4}> 
                                         <Typography className={classes.TextTitleStyle} variant="subtitle1">ใบแจ้งชำระหนี้ (Bill Payment)</Typography>
                                     </Grid>
-                                    <Grid item xs={1} sm={1} md={1}>  </Grid>
+                                    <Grid item xs={1} sm={1} md={1} lg={1}>  </Grid>
                                 
                                 </Grid>
                                 <Grid
@@ -178,121 +195,23 @@ export default function BillPaymentMthdPage() {
                                     alignItems="center"
                                 >
                                     <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
-                                    <Grid item xs={10} sm={10} md={6} lg={4}>
-                                        <Typography >ทำรายการผ่านโมบายแบงค์กิ้งได้ทุกธนาคาร ชำระภายใน 24 ชม. มิเช่นนั้นรายการชำระของคุณจะถูกยกเลิก</Typography>
+                                    <Grid item xs={10} sm={8} md={4} lg={4}>
+                                        <Typography style={{fontSize:14}}>ทำรายการผ่านโมบายแบงค์กิ้งได้ทุกธนาคาร ชำระภายใน 24 ชม. มิเช่นนั้นรายการชำระของคุณจะถูกยกเลิก</Typography>
                                     </Grid>
                                     <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
                                 
                                 </Grid>
-                                {encodeImg}
                                 <Grid
                                     container
                                     direction="row"
                                     justifyContent="center"
                                     alignItems="center"
-                                    style={{marginTop:20}}
+                                    style={{marginTop:10}}
                                 >
                                     <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
 
-                                    <Grid item xs={7} sm={4} md={3} lg={3}>
-                                                <Paper style={{width:'100%' ,height:400 , backgroundColor:'#00AEEF'}}>
-                                                    <img className={classes.headerImg} alt="complex" src={process.env.PUBLIC_URL + "/Siamsmilelogo_man_white.png"} />
-                                                    <Grid container >
-                                                        <Grid
-                                                        container
-                                                        direction="row"
-                                                        justifyContent="center"
-                                                        alignItems="center"
-                                                        style={{width:'98%' ,height:360 , backgroundColor:'white' ,marginTop:2 ,marginLeft:3}}
-                                                        >
-                                                                <Barcode
-                                                                    value={qeCodeValue}
-                                                                    format={"CODE128"}
-                                                                    displayValue={true}
-                                                                    margin={10}
-                                                                    textAlign={"center"}
-                                                                    fontSize={15}
-                                                                    fontOptions={"italic"}
-                                                                    lineColor={"#000000"}
-                                                                    background={""}
-                                                                    marginBottom={-20}
-                                                                    id="BarCode"
-                                                                />
-                                                                <Grid
-                                                                    container
-                                                                    direction="column"
-                                                                    justifyContent="center"
-                                                                    alignItems="center"
-                                                                    style={{marginBottom:0}}
-                                                                >
-                                                                    <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                    <Grid item xs={8} sm={4} md={4} lg={6}> 
-                                                                            <QRCode
-                                                                                value={qeCodeValue}
-                                                                                size={100}
-                                                                                bgColor={"#ffffff"}
-                                                                                fgColor={"#000000"}
-                                                                                level={"L"}
-                                                                                includeMargin={false}
-                                                                                renderAs={"svg"}
-                                                                                id="QRCode" 
-                                                                                // imageSettings={{
-                                                                                // src:
-                                                                                //     "https://image.makewebeasy.net/makeweb/0/NMOB3ab6S/Home/logo.png",
-                                                                                // x: null,
-                                                                                // y: null,
-                                                                                // height: 25,
-                                                                                // width: 25,
-                                                                                // excavate: true,
-                                                                                // }}
-                                                                                // style={marginTop:10}
-                                                                            />
-                                                                    </Grid>
-                                                                    <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                    <br/>
-                                                                    <Grid container>
-                                                                        <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                        <Grid item xs={5} sm={5} md={5}  lg={5}>
-                                                                            <Typography className={classes.TextStyle} >วันที่สิ้นสุดการชำระ : </Typography>
-                                                                        </Grid>
-                                                                        <Grid item xs={5} sm={5} md={5}  lg={5}>
-                                                                            <Typography className={classes.TextDetailStyle}> {customerPaymentReducer.billPaymentDetail.xxx_billPaymentLastDate}</Typography>
-                                                                        </Grid>
-                                                                        <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                    </Grid>
-                                                                    <Grid container>
-                                                                        <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                        <Grid item xs={5} sm={5} md={5}  lg={5}>
-                                                                            <Typography className={classes.TextStyle} >ยอดชำระ : </Typography>
-                                                                        </Grid>
-                                                                        <Grid item xs={5} sm={5} md={5}  lg={5}>
-                                                                            <Typography className={classes.TextDetailStyle}> {customerPaymentReducer.billPaymentDetail.xxx_billPaymentTotal}</Typography>
-                                                                        </Grid>
-                                                                        <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                    </Grid>
-                                                                    <Grid container>
-                                                                        <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                        <Grid item xs={5} sm={5} md={5}  lg={5}>
-                                                                            <Typography className={classes.TextStyle}>รหัสชำระ : </Typography>
-                                                                        </Grid>
-                                                                        <Grid item xs={5} sm={5} md={5}  lg={5}>
-                                                                            <Typography className={classes.TextDetailStyle}> {customerPaymentReducer.billPaymentDetail.xxx_billPaymentRefCode}</Typography>
-                                                                        </Grid>
-                                                                        <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                    </Grid>
-                                                                    <br/>
-                                                                    <Grid container alignItems="center">
-                                                                        <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                        <Grid item xs={10} sm={10} md={10}  lg={10}>
-                                                                            <Typography className={classes.TextRemarkStyle} >ท่านสามารถชำระเงินผ่าน Mobile Application ได้ทุกธนาคารโดยมีผลทันที</Typography>
-                                                                        </Grid>
-                                                                        <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
-                                                                    </Grid>
-                                                                    
-                                                                </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Paper>
+                                    <Grid item xs={12} sm={8} md={4} lg={3}>
+                                         <BillPayment ref={componentRef} />
                                     </Grid>
                                     <Grid item xs={1} sm={1} md={1}  lg={1}> </Grid>
                                 
@@ -308,9 +227,22 @@ export default function BillPaymentMthdPage() {
                                 >
                                     <Grid item xs={1} sm={1} md={1} ></Grid>
                                     <Grid item xs={10} sm={10} md={10}>
-                                            <Button variant="contained" style={{backgroundColor:'#00AEEF' , color:'white', width:230}} fullWidth onClick={() =>{onImageCownload()}}>
-                                                    Download QR / BarCode
-                                            </Button>
+                                        {/* <ReactToPrint
+                                            trigger={() => (
+                                                <Button variant="contained" style={{backgroundColor:'#00AEEF' , color:'white', width:230}} fullWidth onClick={() =>{onImageCownload(true)}}>
+                                                        Download QR / BarCode
+                                                </Button>
+                                            )}
+                                            content={() => componentRef.current}
+                                        /> */}
+                                        <Button  
+                                            variant="contained" 
+                                            style={{backgroundColor:'#00AEEF' , color:'white', width:230}} 
+                                            fullWidth  
+                                            onClick={() => exportComponentAsPNG(componentRef)}
+                                        >
+                                            Download QR / BarCode
+                                        </Button>
                                     </Grid>
                                     <Grid item xs={1} sm={1} md={1}>  </Grid>
                                 
@@ -352,22 +284,11 @@ export default function BillPaymentMthdPage() {
                                         >
                                             ย้อนกลับ
                                         </Button>
-                                        <Button
-                                            type="submit"
-                                            fullWidth
-                                            style={{ color: "#2882DC", backgroundColor: "#FFFFFF", marginTop: 15, width:230 }}
-                                            variant="contained"
-                                            size="small"
-                                            onClick={() => {handleEncode()}}
-                                        >
-                                            Encode
-                                        </Button>
                                     </Grid>
                                     <Grid item xs={1} sm={1} md={1}>  </Grid>
                                 
                                 </Grid>
-                   
-                 
+                               
 
                 </Grid >
                 

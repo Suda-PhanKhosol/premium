@@ -16,6 +16,7 @@ function FormikTextField(props) {
       name={props.name}
       label={props.label}
       fullWidth
+      variant={props.variant}
       autoFocus={props.autoFocus}
       required={props.required}
       onBlur={props.formik.handleBlur}

@@ -65,6 +65,7 @@ export default function PaySuccessPage() {
                     justifyContent="flex-start"
                     alignItems="center"
                  >
+                     <br/>
                     <Grid
                         container
                         direction="column"
@@ -73,7 +74,7 @@ export default function PaySuccessPage() {
                     >
                         <Grid item xs={1} sm={1} md={1} ></Grid>
                         <Grid item xs={12} sm={10} md={10}>
-                             <Typography  style={{ fontFamily:'sarabun', color: "#216FED",fontSize:30 }}><b>ยืนยันการชำระเบี้ยสำเร็จ</b></Typography>
+                             <Typography  style={{ fontFamily:'sarabun', color: "#216FED",fontSize:25 }}><b>ยืนยันการชำระเบี้ยสำเร็จ</b></Typography>
                         </Grid>
                         <Grid item xs={1} sm={1} md={1}>  </Grid>
                        
@@ -100,7 +101,7 @@ export default function PaySuccessPage() {
                     >
                         <Grid item xs={1} sm={1} md={1} ></Grid>
                         <Grid item xs={10} sm={10} md={10}>
-                                <Typography variant="" style={{ fontWeight:'' , fontFamily:'sarabun',fontSize:18 }}><b>ขอขอบคุณที่ท่านไว้วางใจ ซื้อประกันภัยกับทางสยามสไมล์ จำนวน 1040 บาท</b></Typography>
+                                <Typography  style={{ fontFamily:'sarabun',fontSize:14 ,textAlign:'center'}}>ขอขอบคุณที่ท่านไว้วางใจ ซื้อประกันภัยกับทางสยามสไมล์ จำนวน 1040 บาท</Typography>
                         </Grid>
                         <Grid item xs={1} sm={1} md={1} ></Grid>
 

@@ -31,9 +31,9 @@ export function Routes() {
         />
         <Route path="/error404" component={Error404} />
         <SSOHandler>
-          {/* <Layout> */}
+          <Layout>
             <BasePage />
-          {/* </Layout> */}
+          </Layout>
         </SSOHandler>
         <Redirect to="/error404"></Redirect>
       </Switch>

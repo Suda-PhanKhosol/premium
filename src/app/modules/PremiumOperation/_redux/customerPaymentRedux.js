@@ -68,8 +68,8 @@ const initialState = {
         paySlip:{
             xxx_paidDate :"11/04/2564",
             xxx_timePaid : "15:45",
-            xxx_paidRef : "B64100000001",
-            xxx_refNo : "RB0000001",
+            xxx_paidRef : "B6410000001",
+            xxx_refNo : "RB000001",
             xxx_paidDetail : [
                 {
                     xxx_refDetail : "RC64100000101" ,
@@ -77,7 +77,7 @@ const initialState = {
                     xxx_productType : "631" ,
                     xxx_paymentType : "รายเดือน" ,
                     xxx_premium : 490 ,
-                    xxx_insuredName : "นางสาว พิมพาสวย อ่อนทวย" ,
+                    xxx_insuredName : "นางสาว พิมพาสวย อ่อนทวยsd" ,
 
                 },
                 {

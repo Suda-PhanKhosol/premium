@@ -40,12 +40,23 @@ export default function ASideMenuList() {
 
       <MenuItem iconName="home" text="Home" path="/home"></MenuItem>
 
-      <MenuItem iconName="quiz" text="CustomerPayment" path="/CustomerPayment"></MenuItem>
-      <MenuItem iconName="quiz" text="PaymentMethods" path="/PaymentMethods"></MenuItem>
-      <MenuItem iconName="quiz" text="BillMethod" path="/BillPaymentMethod"></MenuItem>
-      <MenuItem iconName="quiz" text="CardMethod" path="/CardPaymentMethod"></MenuItem>
-      <MenuItem iconName="quiz" text="Success" path="/SuccessPaid"></MenuItem>
-      <MenuItem iconName="quiz" text="Failed" path="/FailedPaid"></MenuItem>
+      <ParentsMenu iconName="admin_panel_settings" text="Operation">
+
+          <MenuItem  text="CustomerPayment" path="/CustomerPayment"></MenuItem>
+          <MenuItem  text="PaymentMethods" path="/PaymentMethods"></MenuItem>
+          <MenuItem  text="BillMethod" path="/BillPaymentMethod"></MenuItem>
+          <MenuItem  text="CardMethod" path="/CardPaymentMethod"></MenuItem>
+          <MenuItem  text="Success" path="/SuccessPaid"></MenuItem>
+          <MenuItem  text="Failed" path="/FailedPaid"></MenuItem>
+          <MenuItem  text="PaySlip" path="/PaySlip"></MenuItem>
+
+      </ParentsMenu>
+    
+      <ParentsMenu iconName="admin_panel_settings" text="จัดรายการตั้งหนี้">
+         <MenuItem  text="ต่ออายุ (รายปี/ราย 3 ปี)" path="/DebtRenewal"></MenuItem>
+         <MenuItem  text="ขึ้นจัดเก็บ" path="/DebtStorage"></MenuItem>
+         <MenuItem  text="คืนความคุ้มครอง" path="/DebtRecovery"></MenuItem>
+      </ParentsMenu>
 
       <MenuItem iconName="face_retouching_natural" text="Manage employee" path="/employeeManage" permissions={[PERMISSIONS.employee_read]}></MenuItem>
       

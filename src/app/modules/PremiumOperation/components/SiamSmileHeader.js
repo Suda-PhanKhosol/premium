@@ -6,7 +6,7 @@ const useStyle = makeStyles((theme) => ({
     headerImg:{
         margin: "auto",
         display: 'block',
-        width: 40,
+        width: 34,
         height: 50,
         maxWidth: '80%',
         maxHeight: '80%',

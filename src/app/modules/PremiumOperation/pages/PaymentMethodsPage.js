@@ -11,18 +11,18 @@ const useStyle = makeStyles((theme) => ({
     TextStyle : {
         fontWeight:'bold',
         fontFamily:'sarabun',
-        fontSize:18
+        fontSize:14
     },
     imgCard: {
         width: 30,
         height: 40,
         marginRight: 0,
         marginTop: 10,
-        marginLeft:20
+        marginLeft:5
     },
     visaImg: {
-        width: 60,
-        height: 40,
+        width: 40,
+        height: 30,
         marginRight: 0,
         marginTop: 10,
         marginLeft:20
@@ -136,7 +136,7 @@ export default function PaymentMethodsPage() {
                             >
                                         <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
                                             <Grid item xs={10} sm={10} md={6} lg={4}>
-                                                    <Paper elevation={3} style={{maxWidth:'100%' , height:60 }}>
+                                                    <Paper elevation={3} style={{maxWidth:'100%' , height:60 }} >
                                                             <Grid
                                                             container
                                                             direction="row"
@@ -152,6 +152,9 @@ export default function PaymentMethodsPage() {
                                                                 </Grid>
                                                                 <Grid  item   >
                                                                     <Typography variant="subtitle1" className={classes.TextStyle}>Bill payment/QR/Barcode</Typography> 
+                                                                </Grid>
+                                                                <Grid  item   >
+                                                                    <Typography variant="subtitle1" className={classes.TextStyle}></Typography> 
                                                                 </Grid>
                                                                 <Grid  item  >
                                                                     <FormControlLabel 

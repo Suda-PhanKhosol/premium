@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid ,Typography , Paper, Divider } from '@material-ui/core';
+import { Grid ,Typography , Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 
 const useStyle = makeStyles((theme) => ({
@@ -9,17 +9,17 @@ const useStyle = makeStyles((theme) => ({
     },
     textLabelName :{
         fontFamily:'prompt',
-        fontSize:15,
+        fontSize:13,
         color:'#A5A5A5'
     },
     textRef : {
         color:'#00AEEF',
         fontFamily:'prompt',
-        fontSize:15
+        fontSize:13
     },
     textDetail : {
         fontFamily:'prompt',
-        fontSize:15
+        fontSize:13
     }
 }))
 
@@ -29,7 +29,7 @@ export default function PaySlipItem(props) {
     const classes = useStyle();
     return (
         <div>
-             <Paper variant="outlined" square  >
+             <Paper variant="outlined" square style={{borderColor:'#00AEEF'}} >
                 <Grid container className={classes.paperLayout} >
                        <Grid item xs={4} sm={4} md={4} lg={4}>
                            <Typography className={classes.textLabelName}>Ref no.</Typography>
@@ -78,8 +78,8 @@ export default function PaySlipItem(props) {
                            <Typography className={classes.textDetail}>{props.paySlip.xxx_insuredName}</Typography>
                        </Grid>
                 </Grid>
-                {/* <Divider/> */}
               </Paper>
+         
         </div>
     )
 }

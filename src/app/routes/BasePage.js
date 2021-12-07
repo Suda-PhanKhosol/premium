@@ -45,6 +45,10 @@ import PayFailedPage from "../modules/PremiumOperation/pages/PayFailedPage";
 import PaymentMethodsPage from "../modules/PremiumOperation/pages/PaymentMethodsPage";
 import PaySuccessPage from "../modules/PremiumOperation/pages/PaySuccessPage";
 import PaySlipPage from '../modules/PremiumOperation/pages/PaySlipPage'
+import TestPage from "../modules/PremiumOperation/pages/TestPage";
+import DebtRenewalPage from "../modules/DebtRenewalManagement/pages/DebtRenewalPage";
+import DebtStoragePage from "../modules/DebtRenewalManagement/pages/DebtStoragePage";
+import DebtRecoveryPage from "../modules/DebtRenewalManagement/pages/DebtRecoveryPage";
 
 export default function BasePage(props) {
   return (
@@ -57,6 +61,11 @@ export default function BasePage(props) {
         <ContentRoute exact path="/test" component={Test} title="Test" />
 
         {/* BEGIN Payment Premiun */}
+        <ContentRoute
+          exact
+          path="/TestPage"
+          component={TestPage}
+        />
         <ContentRoute
           exact
           path="/BillPaymentMethod"
@@ -91,6 +100,24 @@ export default function BasePage(props) {
           exact
           path="/PaySlip"
           component={PaySlipPage}
+          />
+
+          <ContentRoute
+          exact
+          path="/DebtRenewal"
+          component={DebtRenewalPage}
+          />
+
+        <ContentRoute
+          exact
+          path="/DebtStorage"
+          component={DebtStoragePage}
+          />
+
+          <ContentRoute
+          exact
+          path="/DebtRecovery"
+          component={DebtRecoveryPage}
           />
         {/* END Payment Premiun */}
 

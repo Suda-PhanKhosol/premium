@@ -65,6 +65,7 @@ export default function PayFailedPage() {
                     justifyContent="flex-start"
                     alignItems="center"
                  >
+                     <br/>
                     <Grid
                         container
                         direction="column"
@@ -73,7 +74,7 @@ export default function PayFailedPage() {
                     >
                         <Grid item xs={1} sm={1} md={1} ></Grid>
                         <Grid item xs={12} sm={10} md={10}>
-                             <Typography  style={{ fontFamily:'sarabun', color: "red",fontSize:28 }}><b>ขออภัยการชำระเบี้ยไม่สำเร็จ</b></Typography>
+                             <Typography  style={{ fontFamily:'sarabun', color: "red",fontSize:25 }}><b>ขออภัยการชำระเบี้ยไม่สำเร็จ</b></Typography>
                         </Grid>
                         <Grid item xs={1} sm={1} md={1}>  </Grid>
                        
@@ -100,7 +101,7 @@ export default function PayFailedPage() {
                     >
                         <Grid item xs={1} sm={1} md={1} ></Grid>
                         <Grid item xs={10} sm={10} md={10}>
-                                <Typography variant="" style={{ fontWeight:'' , fontFamily:'sarabun',fontSize:18 }}>โปรดทำรายการชำระเบี้ยอีกครั้ง หากมีข้อสงสัยโปรดติดต่อ 1434</Typography>
+                                <Typography  style={{fontFamily:'sarabun',fontSize:14 ,textAlign:'center'}}>โปรดทำรายการชำระเบี้ยอีกครั้ง หากมีข้อสงสัยโปรดติดต่อ 1434</Typography>
                         </Grid>
                         <Grid item xs={1} sm={1} md={1} ></Grid>
 
